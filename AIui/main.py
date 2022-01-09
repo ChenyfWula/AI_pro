@@ -10,9 +10,10 @@ def main():
     # -------------------------------------------------------#
     # -------------------------------------------------------#
     # # an example of vi display
-    # vi = ui.valueIter(0,'1',1)
+    # vi = ui.valueIter(0)
     # vi.display()
-    # vi.update_vi()
+    # vi.update_vi('1',200)
+    # vi.update_vi('2',1)
     # vi.stay(5)
 
 if __name__ == '__main__':

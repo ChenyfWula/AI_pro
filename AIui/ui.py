@@ -153,65 +153,63 @@ class posSolveClass():
             clock.tick(1)
             pygame.display.flip()
 
-class valueIter(posSolveClass):
-    '''
-    used to show the process of the value iteration
-    *Not complished yet
-    '''
-    def __init__(self, task, point, value):
-        '''
-        almost the same as posSolveClass
-        '''
-        self.position = point
-        self.value = value
-        self.task = task
+# class valueIter(posSolveClass):
+#     '''
+#     used to show the process of the value iteration
+#     *Not complished yet
+#     '''
+#     def __init__(self, task):
+#         '''
+#         almost the same as posSolveClass
+#         '''
+#         self.task = task
 
-    def display(self):
-        '''
-        display the value of every state, almost the same as above
-        '''
-        pygame.init()
-        pygame.display.set_caption("Task "+str(self.task))
-        image = pygame.image.load('img/'+str(self.task)+".png")
-        size = image.get_rect()
-        self.w = size.width
-        self.h = size.height
-        self.window = pygame.display.set_mode([size.width, size.height])
-        self.window.blit(image, (0, 0))
+#     def display(self):
+#         '''
+#         display the value of every state, almost the same as above
+#         '''
+#         pygame.init()
+#         pygame.display.set_caption("Task "+str(self.task))
+#         image = pygame.image.load('img/'+str(self.task)+".png")
+#         size = image.get_rect()
+#         self.w = size.width
+#         self.h = size.height
+#         self.window = pygame.display.set_mode([size.width, size.height])
+#         self.window.blit(image, (0, 0))
     
-    def update_vi(self):
-        '''
-        update value of a certain state
-        Not complished yet
-        '''
-        if self.task == 0:
-            loc = pos.POS_1_LOC[self.position]
-            pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-            pygame.display.flip()
-            # pass
+#     def update_vi(self, point, value):
+#         '''
+#         update value of a certain state
+#         Not complished yet
+#         '''
+#         if self.task == 0:
+#             loc = pos.POS_1_LOC[point]
+#             pygame.draw.circle(self.window, pygame.Color(255,value,value), loc, 10)
+#             pygame.display.flip()
+#             # pass
 
-        elif self.task == 1:
-            heads = pos.POS_2_LOC
+#         elif self.task == 1:
+#             heads = pos.POS_2_LOC
 
-            # find the position in the graph
-            idx = int(self.position)-1
-            idx_col = idx%8
-            idx_row = idx//8
-            idx_set = idx//16
+#             # find the position in the graph
+#             idx = int(point)-1
+#             idx_col = idx%8
+#             idx_row = idx//8
+#             idx_set = idx//16
             
-            # two kinds of starting position
-            head = 0
-            head_1 = (heads['1'][0], heads['1'][1]+idx_set*2*PACE[self.task][1])
-            head_2 = (heads['2'][0], heads['2'][1]+idx_set*2*PACE[self.task][1])
-            if idx_row%2 == 0:
-                head = head_1
-            else:
-                head = head_2
+#             # two kinds of starting position
+#             head = 0
+#             head_1 = (heads['1'][0], heads['1'][1]+idx_set*2*PACE[self.task][1])
+#             head_2 = (heads['2'][0], heads['2'][1]+idx_set*2*PACE[self.task][1])
+#             if idx_row%2 == 0:
+#                 head = head_1
+#             else:
+#                 head = head_2
 
-            loc = (head[0]+idx_col*PACE[self.task][0], head[1])
-            pass
+#             loc = (head[0]+idx_col*PACE[self.task][0], head[1])
+#             pass
 
-        # elif self.task == 2:
-        #     pass
-        else:
-            raise NotImplementedError
+#         # elif self.task == 2:
+#         #     pass
+#         else:
+#             raise NotImplementedError
