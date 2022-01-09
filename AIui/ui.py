@@ -178,12 +178,17 @@ class valueIter(posSolveClass):
         self.h = size.height
         self.window = pygame.display.set_mode([size.width, size.height])
         self.window.blit(image, (0, 0))
-        self.update_vi()
     
     def update_vi(self):
+        '''
+        update value of a certain state
+        Not complished yet
+        '''
         if self.task == 0:
             loc = pos.POS_1_LOC[self.position]
-            pass
+            pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
+            pygame.display.flip()
+            # pass
 
         elif self.task == 1:
             heads = pos.POS_2_LOC

@@ -8,9 +8,11 @@ def main():
     solver.display()
     solver.stay(5)
     # -------------------------------------------------------#
-    # an example of vi display
+    # -------------------------------------------------------#
+    # # an example of vi display
     # vi = ui.valueIter(0,'1',1)
     # vi.display()
+    # vi.update_vi()
     # vi.stay(5)
 
 if __name__ == '__main__':
