@@ -51,7 +51,9 @@ class posSolveClass():
         function of drawing footstep, the key part of the class
         '''
         clock = pygame.time.Clock()
+        
         if self.task == 0:
+            last_loc = pos.POS_1_LOC['1']
             for i in self.act:
 
                 # 2 frames in 1 second
@@ -60,7 +62,9 @@ class posSolveClass():
                 # update location of every step
                 loc = pos.POS_1_LOC[i]
                 pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                
+                pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                last_loc = loc
+
                 # update window
                 pygame.display.flip()
                 
@@ -70,6 +74,7 @@ class posSolveClass():
         
         elif self.task == 1:
             heads = pos.POS_2_LOC
+            last_loc = pos.POS_2_LOC['1']
             for i in self.act:
                 idx = int(i)-1
                 clock.tick(2)
@@ -90,6 +95,9 @@ class posSolveClass():
 
                 loc = (head[0]+idx_col*PACE[self.task][0], head[1])
                 pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
+                pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                last_loc = loc
+
                 pygame.display.flip()
                 self.__days-=1
                 self.set_text()

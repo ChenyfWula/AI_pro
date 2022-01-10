@@ -2,7 +2,7 @@ import ui
 
 def main():
     # an example of solution display
-    solver = ui.posSolveClass(0,
+    solver = ui.posSolveClass(1,
                             ['1','2','10','18','25'],
                             [i for i in range(30)])
     solver.display()
