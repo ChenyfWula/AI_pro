@@ -3,7 +3,7 @@
 # -----------------------
 
 from typing import NamedTuple
-import mdp, util
+import mdp, util, graph
 
 import collections
 
@@ -26,18 +26,26 @@ class ValueIterationAgent:
         self.discount = discount
         self.iterations = iterations
         self.values = util.Counter() # A Counter is a dict with default 0
-        #self.resourceconsume = util.Counter() #count how much resources have consumed
+        self.resourceconsume = util.Counter() #count how much resources have consumed
         self.runValueIteration()
+
+        print(self.values)
+        print('__________________________')
+        print(self.resourceconsume)
+        print('__________________________')
+        print(self.getPath())
 
 
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
-        states = self.mdp.getStates()
+        states = self.mdp.getStates()  
+        
         for iteration in range(self.iterations):
             value_copy = self.values.copy()
             
             for state in states:
+    
                 if self.mdp.isTerminal(state):
                     value_copy[state] = 2000
                 else:
@@ -66,8 +74,20 @@ class ValueIterationAgent:
         Q_value = 0
         for item in T_sas_list:
             nextState, T_sas = item
-
+            #############Reward function conbined with resource consumption####################
             R_sas = self.mdp.getReward(state,action,nextState)
+            if action == graph.Buying:
+                self.resourceconsume[nextState] = 0
+            else:
+                if self.resourceconsume[nextState] == 0:
+                    self.resourceconsume[nextState] = self.resourceconsume[state] + self.mdp.getConsume(state,action)
+                else:
+                    self.resourceconsume[nextState] = min(self.resourceconsume[nextState],
+                                                         self.resourceconsume[state] + self.mdp.getConsume(state,action))
+                if self.resourceconsume[nextState] >= 1200:
+                    R_sas = -2000000
+            #############Reward function conbined with resource consumption####################
+                    
             Q_value += T_sas*(R_sas+self.discount*self.getValue(nextState))
         
         return Q_value
@@ -92,7 +112,6 @@ class ValueIterationAgent:
             Q_value = self.computeQValueFromValues(state,action)
             Q_dict[Q_value] = action
         return Q_dict[max(Q_dict.keys())]
-        #util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
@@ -106,10 +125,10 @@ class ValueIterationAgent:
     
     def getPath(self):
         start = self.mdp.getStartState()
+
         path = [str(start[1])]
         state = start
-        while not self.mdp.isTerminal(state):
-
+        while not self.mdp.isTerminal(state) and not self.mdp.OutofDate(state):
             successor_list = self.mdp.getSuccessor(state)
             max_v = -999999999
             pivot = successor_list[0]
@@ -121,6 +140,7 @@ class ValueIterationAgent:
                     max_v = value
             path.append(str(pivot[1]))
             state = pivot
+
         return path
         
 

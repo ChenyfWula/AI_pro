@@ -8,9 +8,10 @@ class MarkovDecisionProcess:
         
     def getSuccessor(self, state):
         neighbour = self.graphagent.getNeighbour(state[1])
+        #neighbour = list(set(neighbour))
         weather = self.graphagent.getWeather()
         date = state[0]
-        if state[1] in self.graphagent.graph:
+        if state[1] in self.graphagent.graph.keys():
             successor_list = []
             if self.isTerminal(state):
                 return []
@@ -53,7 +54,7 @@ class MarkovDecisionProcess:
         """
         Return list of possible actions from 'state'.
         """
-        neighbour = self.graphagent.getNeighbour(state[1])
+        neighbour = self.graphagent.getNeighbour(state[1]).copy()
         if self.graphagent.getWeather()[state[0]-1] == 'Storm':
             return [graph.Staying, graph.Mining]
         
@@ -61,6 +62,8 @@ class MarkovDecisionProcess:
             neighbour.append(graph.Staying)
             if self.graphagent.is_mine(state[1]):
                 neighbour.append(graph.Mining)
+            if self.graphagent.is_vilige(state[1]):
+                neighbour.append(graph.Buying)
         return neighbour
 
     def getTransitionStatesAndProbs(self, state, action):
@@ -70,8 +73,7 @@ class MarkovDecisionProcess:
         from 'state' by taking 'action' along
         with their transition probabilities.
         """
-        neighbour = self.graphagent.getNeighbour(state[1])
-        if action in neighbour:
+        if action > 0:
             return [((state[0]+1,action),1)]
         else: 
             return [((state[0]+1,state[1]),1)]
@@ -87,10 +89,11 @@ class MarkovDecisionProcess:
         reward = 0
         if self.isTerminal(state):
             return 100 #this judgement is useless, the useful part is in valueiterationagents.py:42
-        if state[0] == self.graphagent.getDDL():
-            return -2000
+        if state[0] >= self.graphagent.getDDL():
+            return -2000000
+        
         if weather == 'Sunny':
-            if action == graph.Staying:
+            if action == graph.Staying or action == graph.Buying:
                 reward -= 95
             elif action == graph.Mining:
                 reward += 715
@@ -98,7 +101,7 @@ class MarkovDecisionProcess:
                 reward -= 190
                 
         elif weather == 'Hot':
-            if action == graph.Staying:
+            if action == graph.Staying or action == graph.Buying:
                 reward -= 100
             elif action == graph.Mining:
                 reward += 700
@@ -106,7 +109,7 @@ class MarkovDecisionProcess:
                 reward -= 200
                 
         elif weather == 'Storm':
-            if action == graph.Staying:
+            if action == graph.Staying or action == graph.Buying:
                 reward -= 150
             elif action == graph.Mining:
                 reward += 550
@@ -126,6 +129,34 @@ class MarkovDecisionProcess:
             return True
         return False
     
+    def getConsume(self,state,action):
+        weather = self.graphagent.getWeather()[state[0]-1]
+        
+        if weather == 'Sunny':
+            if action == graph.Staying:
+                return 29
+            elif action == graph.Mining:
+                return 87
+            else:
+                return 58
+                
+        elif weather == 'Hot':
+            if action == graph.Staying:
+                return 36
+            elif action == graph.Mining:
+                return 108
+            else:
+                return 72
+                
+        elif weather == 'Storm':
+            if action == graph.Staying:
+                return 50
+            elif action == graph.Mining:
+                return 150
+        
+        return 0
+        
+        
     def OutofDate(self,state):
         if state[0] > self.graphagent.getDDL():
             return True
