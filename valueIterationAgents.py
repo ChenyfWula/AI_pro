@@ -28,7 +28,7 @@ class ValueIterationAgent:
         self.values = util.Counter() # A Counter is a dict with default 0
         #self.resourceconsume = util.Counter() #count how much resources have consumed
         self.runValueIteration()
-        print(self.values)
+
 
     def runValueIteration(self):
         # Write value iteration code here
@@ -103,4 +103,24 @@ class ValueIterationAgent:
 
     def getQValue(self, state, action):
         return self.computeQValueFromValues(state, action)
+    
+    def getPath(self):
+        start = self.mdp.getStartState()
+        path = [str(start[1])]
+        state = start
+        while not self.mdp.isTerminal(state):
+
+            successor_list = self.mdp.getSuccessor(state)
+            max_v = -999999999
+            pivot = successor_list[0]
+
+            for item in successor_list:
+                value = self.getValue(item)
+                if value > max_v:
+                    pivot = item
+                    max_v = value
+            path.append(str(pivot[1]))
+            state = pivot
+        return path
+        
 

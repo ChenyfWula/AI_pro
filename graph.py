@@ -4,13 +4,14 @@ Staying = 0
 Mining = -1
 
 class graphAgent:
-    def __init__(self,graph,weather,start,end,vilige,mine):
+    def __init__(self,graph,weather,start,end,vilige,mine,DDL):
         self.graph = graph
         self.weather = weather
         self.start = start
         self.end = end
         self.vilige = vilige
         self.mine = mine
+        self.DDL = DDL
     
     def getWeather(self):
         return self.weather
@@ -28,6 +29,9 @@ class graphAgent:
     
     def is_mine(self, loc):
         return loc == self.mine
+    
+    def getDDL(self):
+        return self.DDL
     
         
 #graph for question 1
@@ -63,4 +67,4 @@ Q1_graph = {
 Q1_weather = ['Hot','Hot','Sunny','Storm','Sunny','Hot','Storm','Sunny','Hot','Hot',
               'Storm','Hot','Sunny','Hot','Hot','Hot','Storm','Storm','Hot','Hot',
               'Sunny','Sunny','Hot','Sunny','Storm','Hot','Sunny','Sunny','Hot','Hot']
-Q1_graph_agent = graphAgent(Q1_graph,Q1_weather,1,27,None,None)
+Q1_graph_agent = graphAgent(Q1_graph,Q1_weather,1,27,None,None,30)

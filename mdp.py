@@ -6,10 +6,10 @@ class MarkovDecisionProcess:
     def __init__(self, graphagent):
         self.graphagent = graphagent
         
-    def getSuccessor(self, state,date):
+    def getSuccessor(self, state):
         neighbour = self.graphagent.getNeighbour(state[1])
         weather = self.graphagent.getWeather()
-        
+        date = state[0]
         if state[1] in self.graphagent.graph:
             successor_list = []
             if self.isTerminal(state):
@@ -34,7 +34,7 @@ class MarkovDecisionProcess:
         for date in range(1,len(weather_list)):
             curr_successor = []
             for state in temp:
-                curr_successor.extend(self.getSuccessor(state,date))
+                curr_successor.extend(self.getSuccessor(state))
                 
             curr_successor = list(set(curr_successor))
             State_list.extend(curr_successor)
@@ -87,8 +87,8 @@ class MarkovDecisionProcess:
         reward = 0
         if self.isTerminal(state):
             return 100 #this judgement is useless, the useful part is in valueiterationagents.py:42
-        if state[0] == 30:
-            return -1000
+        if state[0] == self.graphagent.getDDL():
+            return -2000
         if weather == 'Sunny':
             if action == graph.Staying:
                 reward -= 95
@@ -123,6 +123,11 @@ class MarkovDecisionProcess:
         are equivalent.
         """
         if state[1] == self.graphagent.getEnd():
+            return True
+        return False
+    
+    def OutofDate(self,state):
+        if state[0] > self.graphagent.getDDL():
             return True
         return False
 
