@@ -39,7 +39,7 @@ class ValueIterationAgent:
             
             for state in states:
                 if self.mdp.isTerminal(state):
-                    value_copy[state] = 1000
+                    value_copy[state] = 2000
                 else:
                     action = self.computeActionFromValues(state)
                     Q_value = self.computeQValueFromValues(state,action)

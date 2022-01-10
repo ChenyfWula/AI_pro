@@ -8,10 +8,14 @@ class MarkovDecisionProcess:
         
     def getSuccessor(self, state,date):
         neighbour = self.graphagent.getNeighbour(state[1])
+        weather = self.graphagent.getWeather()
+        
         if state[1] in self.graphagent.graph:
+            successor_list = []
             if self.isTerminal(state):
                 return []
-            successor_list = [(date+1,loc) for loc in neighbour]
+            if weather[date-1] != 'Storm':
+                successor_list = [(date+1,loc) for loc in neighbour]
             successor_list.append((date+1, state[1]))
             return successor_list
         else:
