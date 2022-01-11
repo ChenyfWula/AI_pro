@@ -84,7 +84,7 @@ class ValueIterationAgent:
                 else:
                     self.resourceconsume[nextState] = min(self.resourceconsume[nextState],
                                                          self.resourceconsume[state] + self.mdp.getConsume(state,action))
-                if self.resourceconsume[nextState] >= 1200:
+                if self.resourceconsume[nextState] > self.mdp.graphagent.MaxResource:
                     R_sas = -2000000
             #############Reward function conbined with resource consumption####################
                     
@@ -135,7 +135,7 @@ class ValueIterationAgent:
 
             for item in successor_list:
                 value = self.getValue(item)
-                if value > max_v:
+                if value >= max_v:
                     pivot = item
                     max_v = value
             path.append(str(pivot[1]))

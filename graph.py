@@ -4,7 +4,7 @@ Staying = 0
 Mining = -1
 Buying = -2
 class graphAgent:
-    def __init__(self,graph,weather,start,end,vilige,mine,DDL):
+    def __init__(self,graph,weather,start,end,vilige,mine,DDL,MaxResource):
         self.graph = graph
         self.weather = weather
         self.start = start
@@ -12,6 +12,7 @@ class graphAgent:
         self.vilige = vilige
         self.mine = mine
         self.DDL = DDL
+        self.MaxResource = MaxResource
     
     def getWeather(self):
         return self.weather
@@ -70,4 +71,4 @@ Q1_graph = {
 Q1_weather = ['Hot','Hot','Sunny','Storm','Sunny','Hot','Storm','Sunny','Hot','Hot',
               'Storm','Hot','Sunny','Hot','Hot','Hot','Storm','Storm','Hot','Hot',
               'Sunny','Sunny','Hot','Sunny','Storm','Hot','Sunny','Sunny','Hot','Hot']
-Q1_graph_agent = graphAgent(Q1_graph,Q1_weather,1,27,15,12,30)
+Q1_graph_agent_default = graphAgent(Q1_graph,Q1_weather,1,27,None,12,30,1200)

@@ -7,17 +7,20 @@ class MarkovDecisionProcess:
         self.graphagent = graphagent
         
     def getSuccessor(self, state):
-        neighbour = self.graphagent.getNeighbour(state[1])
+        neighbour = self.graphagent.getNeighbour(abs(state[1]))
         #neighbour = list(set(neighbour))
         weather = self.graphagent.getWeather()
         date = state[0]
-        if state[1] in self.graphagent.graph.keys():
+        if abs(state[1]) in self.graphagent.graph.keys():
             successor_list = []
             if self.isTerminal(state):
                 return []
             if weather[date-1] != 'Storm':
                 successor_list = [(date+1,loc) for loc in neighbour]
             successor_list.append((date+1, state[1]))
+            
+            if self.graphagent.is_mine(abs(state[1])) or self.graphagent.is_vilige(abs(state[1])):
+                successor_list.append((date+1, -abs(state[1])))
             return successor_list
         else:
             raise KeyError('No successor')
@@ -54,15 +57,15 @@ class MarkovDecisionProcess:
         """
         Return list of possible actions from 'state'.
         """
-        neighbour = self.graphagent.getNeighbour(state[1]).copy()
+        neighbour = self.graphagent.getNeighbour(abs(state[1])).copy()
         if self.graphagent.getWeather()[state[0]-1] == 'Storm':
             return [graph.Staying, graph.Mining]
         
         if neighbour != None:
             neighbour.append(graph.Staying)
-            if self.graphagent.is_mine(state[1]):
+            if self.graphagent.is_mine(abs(state[1])):
                 neighbour.append(graph.Mining)
-            if self.graphagent.is_vilige(state[1]):
+            if self.graphagent.is_vilige(abs(state[1])):
                 neighbour.append(graph.Buying)
         return neighbour
 
@@ -75,8 +78,9 @@ class MarkovDecisionProcess:
         """
         if action > 0:
             return [((state[0]+1,action),1)]
-        else: 
-            return [((state[0]+1,state[1]),1)]
+        elif action < 0: 
+            return [((state[0]+1,-abs(state[1])),1)]
+        return [((state[0]+1,abs(state[1])),1)]
         
 
     def getReward(self, state, action, nextState):
@@ -125,7 +129,7 @@ class MarkovDecisionProcess:
         state as having a self-loop action 'pass' with zero reward; the formulations
         are equivalent.
         """
-        if state[1] == self.graphagent.getEnd():
+        if abs(state[1]) == self.graphagent.getEnd():
             return True
         return False
     

@@ -1,6 +1,6 @@
 import mdp, graph, valueIterationAgents,ui
 if __name__ == '__main__':
-    mdp = mdp.MarkovDecisionProcess(graph.Q1_graph_agent)
+    mdp = mdp.MarkovDecisionProcess(graph.Q1_graph_agent_default)
 
     valueIter = valueIterationAgents.ValueIterationAgent(mdp,0.9,50)
     solver = ui.posSolveClass(0,
