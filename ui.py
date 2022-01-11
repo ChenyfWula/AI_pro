@@ -5,6 +5,7 @@ import pos
 CELL_SIZE = 50
 PACE = [(0,0), (65,59.5)]
 DAYS_AT_MOST = 30
+COLOR_LIST = ['black']+['yellow']+[(10*i,150,10*i) for i in range(10)]
 
 class posSolveClass():
     '''
@@ -13,18 +14,27 @@ class posSolveClass():
     task 1: image 1,
     task 2: random rect graph/village/... (not sure now)
     '''
-    def __init__(self, task, actions, gold):
+    def __init__(self, task, ddl, start, end, mine, actions, gold):
         '''
         task(int): 0/1/2
+        start(str): '1'/'2'/...
+        end(str): the same as start
+        mine(str): the same as start
+        resource(str): the same as start
         actions(list[str]): ['1','2',...]
         gold(list[int]): [10, 9, 8, ...]
         '''
+        self.start = start
+        self.end = end
+        self.mine = mine
+        # self.resource = resource
         self.task = task
         self.act = actions
         self.window = None
         self.__gold = gold
-        self.__days = DAYS_AT_MOST
-        self.path = []
+        self.__days = ddl
+        self.path = {}
+        self.positions = [pos.POS_1_LOC,pos.POS_2_LOC]
 
     def display(self):
         '''
@@ -41,6 +51,21 @@ class posSolveClass():
         self.window = pygame.display.set_mode([size.width, size.height])
         self.window.blit(image, (0, 0))
         
+        if self.task == 0:
+            start_pos = self.positions[self.task][self.start]
+            end_pos = self.positions[self.task][self.end]
+            mine_pos = self.positions[self.task][self.mine]
+            # res_pos = self.positions[self.task][self.resource]
+        elif self.task == 1:
+            start_pos = self.__find_pos_in_task_1(self.start)
+            end_pos = self.__find_pos_in_task_1(self.end)
+            mine_pos = self.__find_pos_in_task_1(self.mine)
+            # res_pos = self.find_pos_in_task_1(self.resource)
+        pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[0]), start_pos, 15)
+        pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[0]), end_pos, 15, width = 5)
+        pygame.draw.polygon(self.window, pygame.Color(COLOR_LIST[0]), [(mine_pos[0],mine_pos[1]-20),(mine_pos[0]-20,mine_pos[1]+10),(mine_pos[0]+20,mine_pos[1]+10)])
+        # pygame.draw.polygon(self.window, pygame.Color(COLOR_LIST[4]), [(res_pos[0]-20,res_pos[1]-20),(res_pos[0]-20,res_pos[1]+20),(res_pos[0]+20,res_pos[1]+20),(res_pos[0]+20,res_pos[1]-20)])
+
         # display the text
         self.set_text()
         
@@ -54,23 +79,32 @@ class posSolveClass():
         clock = pygame.time.Clock()
         
         if self.task == 0:
-            last_loc = pos.POS_1_LOC['1']
+            last_loc = pos.POS_1_LOC[self.start]
             for i in self.act:
+                self.set_text()
+                is_mine = False
+
+                # mining
+                if int(i) < 0:
+                    i = str(abs(int(i)))
+                    is_mine = True
 
                 # 2 frames in 1 second
                 clock.tick(2)
                 
                 # update location of every step
                 loc = pos.POS_1_LOC[i]
-                if({last_loc,loc} not in self.path or {loc} not in self.path or {last_loc} not in self.path):
-                    pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                    pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
-                    self.path.append({last_loc,loc})
-                    self.path.append({loc})
-                    self.path.append({last_loc})
-                else:
-                    pygame.draw.circle(self.window, pygame.Color('red'), loc, 10)
-                    pygame.draw.line(self.window, pygame.Color('red'), last_loc, loc, width = 3)
+                if (last_loc != loc) or (not is_mine):
+                    if((last_loc,loc) not in self.path or (loc, last_loc) not in self.path):
+                        self.path[(loc,last_loc)] = 2
+                        self.path[(last_loc,loc)] = 2
+                    else:
+                        self.path[(loc,last_loc)] += 1
+                        self.path[(last_loc,loc)] += 1
+                    pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[2]), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color(COLOR_LIST[self.path[(loc,last_loc)]]), last_loc, loc, width = 5)
+                elif is_mine:
+                    pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[1]), loc, 10)
                 last_loc = loc
 
                 # update window
@@ -78,42 +112,39 @@ class posSolveClass():
                 
                 # update text
                 self.__days-=1
-                self.set_text()
+                
         
         elif self.task == 1:
+            
             heads = pos.POS_2_LOC
-            last_loc = pos.POS_2_LOC['1']
+            last_loc = pos.POS_2_LOC[self.start]
             for i in self.act:
-                idx = int(i)-1
+                self.set_text()
                 clock.tick(2)
 
-                # find the position in the graph
-                idx_col = idx%8
-                idx_row = idx//8
-                idx_set = idx//16
-                
-                # two kinds of starting position
-                head = 0
-                head_1 = (heads['1'][0], heads['1'][1]+idx_set*2*PACE[self.task][1])
-                head_2 = (heads['2'][0], heads['2'][1]+idx_set*2*PACE[self.task][1])
-                if idx_row%2 == 0:
-                    head = head_1
-                else:
-                    head = head_2
+                is_mine = False
+                # mining
+                if int(i) < 0:
+                    i = str(abs(int(i)))
+                    is_mine = True
 
-                loc = (head[0]+idx_col*PACE[self.task][0], head[1])
-                if({last_loc,loc} not in self.path):
-                    pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                    pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
-                    self.path.append({last_loc,loc})
-                else:
-                    pygame.draw.circle(self.window, pygame.Color('red'), loc, 10)
-                    pygame.draw.line(self.window, pygame.Color('red'), last_loc, loc, width = 3)
+                loc = self.__find_pos_in_task_1(i)
+                if(last_loc != loc or not is_mine):
+                    if((last_loc,loc) not in self.path or (loc,last_loc) not in self.path):
+                        self.path[(last_loc,loc)] = 2
+                        self.path[(loc,last_loc)] = 2
+                    else:
+                        self.path[(last_loc,loc)] += 1
+                        self.path[(loc,last_loc)] += 1
+                    pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[2]), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color(COLOR_LIST[self.path[(loc,last_loc)]]), last_loc, loc, width = 5)
+                elif is_mine:
+                    pygame.draw.circle(self.window, pygame.Color(COLOR_LIST[1]), loc, 10)
                 last_loc = loc
 
                 pygame.display.flip()
                 self.__days-=1
-                self.set_text()
+                
         # elif self.task == 2:
         #     for i in self.act:
         #         clock.tick(2)
@@ -144,11 +175,11 @@ class posSolveClass():
         text_loc = pos.POS_TEX_LOC[str(self.task)]
         
         # set the content of the texts
-        text_gold_on_display = font_gold.render('gold: '+str(self.__gold[30-self.__days]),True,(0,0,0))
+        # text_gold_on_display = font_gold.render('gold: '+str(self.__gold[999-self.__days]),True,(0,0,0))
         text_days_on_display = font_days.render('days remain: '+str(self.__days),True,(255,0,0))
     
         back_surf.blit(text_days_on_display, (0, 5))
-        back_surf.blit(text_gold_on_display, (30, 55))
+        # back_surf.blit(text_gold_on_display, (30, 55))
 
         self.window.blit(back_surf, text_loc)
 
@@ -173,6 +204,24 @@ class posSolveClass():
         for i in range(time):
             clock.tick(1)
             pygame.display.flip()
+
+    def __find_pos_in_task_1(self, state):
+        idx = int(state)-1
+        # find the position in the graph
+        idx_col = idx%8
+        idx_row = idx//8
+        idx_set = idx//16
+        heads = self.positions[self.task]
+        # two kinds of starting position
+        head = 0
+        head_1 = (heads['1'][0], heads['1'][1]+idx_set*2*PACE[self.task][1])
+        head_2 = (heads['2'][0], heads['2'][1]+idx_set*2*PACE[self.task][1])
+        if idx_row%2 == 0:
+            head = head_1
+        else:
+            head = head_2
+
+        return (head[0]+idx_col*PACE[self.task][0], head[1])
 
 # class valueIter(posSolveClass):
 #     '''
