@@ -50,14 +50,18 @@ if __name__ == '__main__':
                 Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
                 
     valueIter = valueIterationAgents.ValueIterationAgent(Mdp,0.9,100)
+    
+    ################Print value list###########################3
+    print(valueIter.getPathValue())
+    
     graphic = int(args.graphic)
     
     if graphic == 1:
         solver = ui.posSolveClass(task, DDL, str(start), str(end), str(mine),
-                                valueIter.getPath(),
+                                valueIter.path,
                                 [i for i in range(999)])
         solver.display()
         solver.stay(5) 
     else:
-        print(valueIter.getPath())
+        print(valueIter.path)
             

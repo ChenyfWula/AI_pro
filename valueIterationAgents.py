@@ -28,7 +28,7 @@ class ValueIterationAgent:
         self.values = util.Counter() # A Counter is a dict with default 0
         self.resourceconsume = util.Counter() #count how much resources have consumed
         self.runValueIteration()
-
+        self.path = self.getPath()
         # print(self.values)
         # print('__________________________')
         # print(self.resourceconsume)
@@ -142,5 +142,13 @@ class ValueIterationAgent:
             state = pivot
 
         return path
-        
+    
+    def getPathValue(self):
+        value_list = []
+        for i in range(len(self.path)):
+            date = i+1
+            loc = int(self.path[i])
+            state = (date,loc)
+            value_list.append(self.getValue(state))
+        return value_list
 
