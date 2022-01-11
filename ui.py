@@ -32,7 +32,7 @@ class posSolveClass():
         self.act = actions
         self.window = None
         self.__gold = gold
-        self.__days = ddl
+        self.__days = ddl-1
         self.path = {}
         self.positions = [pos.POS_1_LOC,pos.POS_2_LOC]
 
