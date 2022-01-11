@@ -31,6 +31,7 @@ class posSolveClass():
         self.task = task
         self.act = actions
         self.window = None
+        self.DDL = ddl-1
         self.__gold = gold
         self.__days = ddl-1
         self.path = {}
@@ -174,11 +175,11 @@ class posSolveClass():
         text_loc = pos.POS_TEX_LOC[str(self.task)]
         
         # set the content of the texts
-        # text_gold_on_display = font_gold.render('gold: '+str(self.__gold[999-self.__days]),True,(0,0,0))
+        text_gold_on_display = font_gold.render('gold: '+'%.2f'%self.__gold[self.DDL-self.__days],True,(0,0,0))
         text_days_on_display = font_days.render('days remain: '+str(self.__days),True,(255,0,0))
     
         back_surf.blit(text_days_on_display, (0, 5))
-        # back_surf.blit(text_gold_on_display, (30, 55))
+        back_surf.blit(text_gold_on_display, (30, 55))
 
         self.window.blit(back_surf, text_loc)
 

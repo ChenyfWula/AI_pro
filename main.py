@@ -59,7 +59,7 @@ if __name__ == '__main__':
     if graphic == 1:
         solver = ui.posSolveClass(task, DDL, str(start), str(end), str(mine),
                                 valueIter.path,
-                                [i for i in range(999)])
+                                valueIter.getPathValue())
         solver.display()
         solver.stay(5) 
     else:
