@@ -115,9 +115,8 @@ class posSolveClass():
                 
         
         elif self.task == 1:
-            
-            heads = pos.POS_2_LOC
-            last_loc = pos.POS_2_LOC[self.start]
+
+            last_loc = self.__find_pos_in_task_1(self.start)
             for i in self.act:
                 self.set_text()
                 clock.tick(2)
