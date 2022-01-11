@@ -24,6 +24,7 @@ class posSolveClass():
         self.window = None
         self.__gold = gold
         self.__days = DAYS_AT_MOST
+        self.path = []
 
     def display(self):
         '''
@@ -61,9 +62,18 @@ class posSolveClass():
                 
                 # update location of every step
                 loc = pos.POS_1_LOC[i]
-                pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                
+                if({last_loc,loc} not in self.path):
+                    pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                    self.path.append({last_loc,loc})
+                    print(self.path)
+                else:
+                    print("@@@@@@@@")
+                    pygame.draw.circle(self.window, pygame.Color('red'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('red'), last_loc, loc, width = 3)
                 last_loc = loc
+
 
                 # update window
                 pygame.display.flip()

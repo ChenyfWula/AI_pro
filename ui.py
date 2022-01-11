@@ -24,6 +24,7 @@ class posSolveClass():
         self.window = None
         self.__gold = gold
         self.__days = DAYS_AT_MOST
+        self.path = []
 
     def display(self):
         '''
@@ -61,8 +62,15 @@ class posSolveClass():
                 
                 # update location of every step
                 loc = pos.POS_1_LOC[i]
-                pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                if({last_loc,loc} not in self.path or {loc} not in self.path or {last_loc} not in self.path):
+                    pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                    self.path.append({last_loc,loc})
+                    self.path.append({loc})
+                    self.path.append({last_loc})
+                else:
+                    pygame.draw.circle(self.window, pygame.Color('red'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('red'), last_loc, loc, width = 3)
                 last_loc = loc
 
                 # update window
@@ -94,8 +102,13 @@ class posSolveClass():
                     head = head_2
 
                 loc = (head[0]+idx_col*PACE[self.task][0], head[1])
-                pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
-                pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                if({last_loc,loc} not in self.path):
+                    pygame.draw.circle(self.window, pygame.Color('green'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('green'), last_loc, loc, width = 3)
+                    self.path.append({last_loc,loc})
+                else:
+                    pygame.draw.circle(self.window, pygame.Color('red'), loc, 10)
+                    pygame.draw.line(self.window, pygame.Color('red'), last_loc, loc, width = 3)
                 last_loc = loc
 
                 pygame.display.flip()
