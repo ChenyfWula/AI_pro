@@ -29,11 +29,11 @@ class ValueIterationAgent:
         self.resourceconsume = util.Counter() #count how much resources have consumed
         self.runValueIteration()
 
-        print(self.values)
-        print('__________________________')
-        print(self.resourceconsume)
-        print('__________________________')
-        print(self.getPath())
+        # print(self.values)
+        # print('__________________________')
+        # print(self.resourceconsume)
+        # print('__________________________')
+        # print(self.getPath())
 
 
     def runValueIteration(self):
