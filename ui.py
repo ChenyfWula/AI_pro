@@ -179,7 +179,7 @@ class posSolveClass():
         text_days_on_display = font_days.render('days remain: '+str(self.__days),True,(255,0,0))
     
         back_surf.blit(text_days_on_display, (0, 5))
-        back_surf.blit(text_gold_on_display, (30, 55))
+        back_surf.blit(text_gold_on_display, (0, 55))
 
         self.window.blit(back_surf, text_loc)
 
