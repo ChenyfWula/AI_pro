@@ -72,18 +72,18 @@ class ValueIterationAgent:
         
         T_sas_list = self.mdp.getTransitionStatesAndProbs(state, action)
         Q_value = 0
-        for item in T_sas_list:
-            nextState, T_sas = item
+        for item in range(3):
+            nextState, T_sas = T_sas_list[item]
             #############Reward function conbined with resource consumption####################
-            R_sas = self.mdp.getReward(state,action,nextState)
+            R_sas = self.mdp.getReward(state,action,item)
             if action == graph.Buying:
                 self.resourceconsume[nextState] = 0
             else:
                 if self.resourceconsume[nextState] == 0:
-                    self.resourceconsume[nextState] = self.resourceconsume[state] + self.mdp.getConsume(state,action)
+                    self.resourceconsume[nextState] = self.resourceconsume[state] + self.mdp.getConsume(state,action,item)
                 else:
                     self.resourceconsume[nextState] = min(self.resourceconsume[nextState],
-                                                         self.resourceconsume[state] + self.mdp.getConsume(state,action))
+                                                         self.resourceconsume[state] + self.mdp.getConsume(state,action,item))
                 if self.resourceconsume[nextState] > self.mdp.graphagent.MaxResource:
                     R_sas = -2000000
             #############Reward function conbined with resource consumption####################

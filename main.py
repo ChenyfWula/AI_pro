@@ -1,3 +1,4 @@
+from random import Random, random
 import mdp, graph, valueIterationAgents,ui
 import argparse
 if __name__ == '__main__':
@@ -11,6 +12,7 @@ if __name__ == '__main__':
     
     parser.add_argument('-d','--default',default=0)
     parser.add_argument('-g','--graphic', default= 1)
+    parser.add_argument('-RW','--RandomWeather',default=0)
     args = parser.parse_args()
     
     task = int(args.task)
@@ -19,6 +21,7 @@ if __name__ == '__main__':
     mine = int(args.mine)
     DDL = int(args.DDL)
     Resource = int(args.Resource)
+    RandomWeather = int(args.RandomWeather)
     
     default = int(args.default)
     Mdp = mdp.MarkovDecisionProcess(None)
@@ -28,12 +31,24 @@ if __name__ == '__main__':
         Mdp = mdp.MarkovDecisionProcess(graph.Q2_graph_agent_default)
     else:#user customized setting
         if task == 0:
-            Q1_graph_agent = graph.graphAgent(graph.Q1_graph,graph.Q1_weather,start,end,None,mine,DDL,Resource)
-            Mdp = mdp.MarkovDecisionProcess(Q1_graph_agent)
+            if RandomWeather == 0:
+                Q1_graph_agent = graph.graphAgent(graph.Q1_graph,graph.Q1_weather,start,end,None,mine,DDL,Resource)
+                Mdp = mdp.MarkovDecisionProcess(Q1_graph_agent)
+            else:
+                weather = graph.random_weather_generate(DDL)
+                print(weather)
+                Q1_graph_agent = graph.graphAgent(graph.Q1_graph,weather,start,end,None,mine,DDL,Resource)
+                Mdp = mdp.MarkovDecisionProcess(Q1_graph_agent)
         else:
-            Q2_graph_agent = graph.graphAgent(graph.Q2_graph,graph.Q2_weather,start,end,None,mine,DDL,Resource)
-            Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
-            
+            if RandomWeather == 0:
+                Q2_graph_agent = graph.graphAgent(graph.Q2_graph,graph.Q2_weather,start,end,None,mine,DDL,Resource)
+                Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
+            else:
+                weather = graph.random_weather_generate(DDL)
+                print(weather)
+                Q2_graph_agent = graph.graphAgent(graph.Q2_graph,weather,start,end,None,mine,DDL,Resource)
+                Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
+                
     valueIter = valueIterationAgents.ValueIterationAgent(Mdp,0.9,100)
     graphic = int(args.graphic)
     

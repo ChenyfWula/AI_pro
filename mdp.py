@@ -9,14 +9,14 @@ class MarkovDecisionProcess:
     def getSuccessor(self, state):
         neighbour = self.graphagent.getNeighbour(abs(state[1]))
         #neighbour = list(set(neighbour))
-        weather = self.graphagent.getWeather()
+
         date = state[0]
         if abs(state[1]) in self.graphagent.graph.keys():
-            successor_list = []
+
             if self.isTerminal(state):
                 return []
-            if weather[date-1] != 'Storm':
-                successor_list = [(date+1,loc) for loc in neighbour]
+        
+            successor_list = [(date+1,loc) for loc in neighbour]
             successor_list.append((date+1, state[1]))
             
             if self.graphagent.is_mine(abs(state[1])) or self.graphagent.is_vilige(abs(state[1])):
@@ -58,8 +58,6 @@ class MarkovDecisionProcess:
         Return list of possible actions from 'state'.
         """
         neighbour = self.graphagent.getNeighbour(abs(state[1])).copy()
-        if self.graphagent.getWeather()[state[0]-1] == 'Storm':
-            return [graph.Staying, graph.Mining]
         
         if neighbour != None:
             neighbour.append(graph.Staying)
@@ -76,27 +74,32 @@ class MarkovDecisionProcess:
         from 'state' by taking 'action' along
         with their transition probabilities.
         """
+        weather = self.graphagent.getWeather()[state[0]-1]
+        Sunny_prob = weather[0]
+        Hot_prob = weather[1]
+        Storm_prob = weather[2]
+        
         if action > 0:
-            return [((state[0]+1,action),1)]
+            nextdate = state[0]+1
+            return [((nextdate,action),Sunny_prob),((nextdate,action),Hot_prob),((nextdate,abs(state[1])),Storm_prob)]
         elif action < 0: 
-            return [((state[0]+1,-abs(state[1])),1)]
-        return [((state[0]+1,abs(state[1])),1)]
+            return [((state[0]+1,-abs(state[1])),Sunny_prob),((state[0]+1,-abs(state[1])),Hot_prob),((state[0]+1,-abs(state[1])),Storm_prob)]
+        return [((state[0]+1,abs(state[1])),Sunny_prob),((state[0]+1,abs(state[1])),Hot_prob),((state[0]+1,abs(state[1])),Storm_prob)]
         
 
-    def getReward(self, state, action, nextState):
+    def getReward(self, state,action, weather):
         """
         Get the reward for the state, action, nextState transition.
 
         Not available in reinforcement learning.
         """
-        weather = self.graphagent.getWeather()[state[0]-1]
         reward = 0
         if self.isTerminal(state):
             return 100 #this judgement is useless, the useful part is in valueiterationagents.py:42
         if state[0] >= self.graphagent.getDDL():
             return -2000000
         
-        if weather == 'Sunny':
+        if weather == 0:#'Sunny':
             if action == graph.Staying or action == graph.Buying:
                 reward -= 95
             elif action == graph.Mining:
@@ -104,7 +107,7 @@ class MarkovDecisionProcess:
             else:
                 reward -= 190
                 
-        elif weather == 'Hot':
+        elif weather == 1:#'Hot':
             if action == graph.Staying or action == graph.Buying:
                 reward -= 100
             elif action == graph.Mining:
@@ -112,7 +115,7 @@ class MarkovDecisionProcess:
             else:
                 reward -= 200
                 
-        elif weather == 'Storm':
+        elif weather == 2:#'Storm':
             if action == graph.Staying or action == graph.Buying:
                 reward -= 150
             elif action == graph.Mining:
@@ -133,10 +136,9 @@ class MarkovDecisionProcess:
             return True
         return False
     
-    def getConsume(self,state,action):
-        weather = self.graphagent.getWeather()[state[0]-1]
+    def getConsume(self,state,action,weather):
         
-        if weather == 'Sunny':
+        if weather == 0:#'Sunny':
             if action == graph.Staying:
                 return 29
             elif action == graph.Mining:
@@ -144,7 +146,7 @@ class MarkovDecisionProcess:
             else:
                 return 58
                 
-        elif weather == 'Hot':
+        elif weather == 1:#'Hot':
             if action == graph.Staying:
                 return 36
             elif action == graph.Mining:
@@ -152,7 +154,7 @@ class MarkovDecisionProcess:
             else:
                 return 72
                 
-        elif weather == 'Storm':
+        elif weather == 2:#'Storm':
             if action == graph.Staying:
                 return 50
             elif action == graph.Mining:

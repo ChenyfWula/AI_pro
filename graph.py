@@ -1,5 +1,5 @@
 import util
-
+import random
 Staying = 0
 Mining = -1
 Buying = -2
@@ -68,9 +68,11 @@ Q1_graph = {
     26:[23,24,25,27],
     27:[21,26]
 }
-Q1_weather = ['Hot','Hot','Sunny','Storm','Sunny','Hot','Storm','Sunny','Hot','Hot',
-              'Storm','Hot','Sunny','Hot','Hot','Hot','Storm','Storm','Hot','Hot',
-              'Sunny','Sunny','Hot','Sunny','Storm','Hot','Sunny','Sunny','Hot','Hot']
+Q1_weather = [(0, 1, 0), (0, 1, 0), (1, 0, 0), (0, 0, 1), (1, 0, 0), (0, 1, 0), (0, 0, 1), 
+              (1, 0, 0), (0, 1, 0), (0, 1, 0), (0, 0, 1), (0, 1, 0), (1, 0, 0), (0, 1, 0), 
+              (0, 1, 0), (0, 1, 0), (0, 0, 1), (0, 0, 1), (0, 1, 0), (0, 1, 0), (1, 0, 0), 
+              (1, 0, 0), (0, 1, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 0, 0), (1, 0, 0), 
+              (0, 1, 0), (0, 1, 0)]
 Q1_graph_agent_default = graphAgent(Q1_graph,Q1_weather,1,27,None,12,30,1200)
 
 #graph for question 2
@@ -142,3 +144,13 @@ Q2_graph = {
 }
 Q2_weather = Q1_weather
 Q2_graph_agent_default = graphAgent(Q2_graph,Q2_weather,1,64,None,30,30,1200)
+
+def random_weather_generate(DDL):
+    weather_list = []
+    for i in range(DDL):
+        sunny = random.randint(1,100)
+        hot = random.randint(1,100)
+        storm = random.randint(1,100)
+        probsum = sunny+hot+storm
+        weather_list.append((sunny/probsum,hot/probsum,storm/probsum))
+    return weather_list
