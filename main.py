@@ -51,9 +51,6 @@ if __name__ == '__main__':
                 
     valueIter = valueIterationAgents.ValueIterationAgent(Mdp,0.9,100)
     
-    ################Print value list###########################3
-    print(valueIter.getPathValue())
-    
     graphic = int(args.graphic)
     
     if graphic == 1:
