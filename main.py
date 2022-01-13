@@ -45,7 +45,7 @@ if __name__ == '__main__':
                 Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
             else:
                 weather = graph.random_weather_generate(DDL)
-                print(weather)
+                print('Random generated probability for (Sunny, Hot, Storm):\n',weather,'\n')
                 Q2_graph_agent = graph.graphAgent(graph.Q2_graph,weather,start,end,None,mine,DDL,Resource)
                 Mdp = mdp.MarkovDecisionProcess(Q2_graph_agent)
                 
@@ -60,5 +60,5 @@ if __name__ == '__main__':
         solver.display()
         solver.stay(5) 
     else:
-        print(valueIter.path)
+        print('Suggested Path:',valueIter.path,'\n')
             

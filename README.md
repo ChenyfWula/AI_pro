@@ -43,7 +43,7 @@ If you don not want to see our user interface, using **-g 0** to cancel it. E.g:
 
 The out put will be a list like: ['1', '25', '26', '23', '22', '8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '-8', '22', '21', '27']. For the negative number, it means that we will mining at this location. Of course, we have ensured that it is a mine.
 
-For realistic part, we offer a random weather situation. Using **-RW 1** to switch it on. For the following two examples, you will find that they choose a totally different policy cause the random weather will greatly enhance the probability of storm. Thus, we would like to get to the exit as soon as possible.
+For realistic part, we offer a random weather situation. Using **-RW 1** to switch it on. For the following two examples, you will find that they choose a totally different policy cause the random weather will greatly enhance the probability of storm. Thus, we would like to get to the exit as soon as possible. If you find the two path are the same, try it for another time cause the probability  is totally random.
 
 > python main.py -t 1 -s 2 -e 63 -m 15 -D 25 -R 1500  -RW 1  |  python main.py -t 1 -s 2 -e 63 -m 15 -D 25 -R 1500
 
