@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.9.8)  14 JAN 2022 10:36
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.9.8)  14 JAN 2022 13:06
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -321,7 +321,7 @@ LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Underfull \hbox (badness 1348) in paragraph at lines 85--97
+Underfull \hbox (badness 1348) in paragraph at lines 85--94
 \TU/ptm/m/n/10 automatic control, economics, and manufacturing.
  []
 
@@ -337,19 +337,19 @@ File: sample.png Graphic file (type bmp)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 208.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 209.
  [3
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 208.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 209.
  (h:/AI/AI_pro/Report/egpaper_final.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 208.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 208.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 209.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 209.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 208.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 209.
  ) 
 Here is how much of TeX's memory you used:
  9635 strings out of 479418
@@ -360,4 +360,4 @@ Here is how much of TeX's memory you used:
  1348 hyphenation exceptions out of 8191
  38i,8n,31p,374b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on h:/AI/AI_pro/Report/egpaper_final.xdv (3 pages, 83248 bytes).
+Output written on h:/AI/AI_pro/Report/egpaper_final.xdv (3 pages, 83232 bytes).
