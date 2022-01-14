@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.9.8)  13 JAN 2022 18:12
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.9.8)  14 JAN 2022 10:36
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -337,19 +337,19 @@ File: sample.png Graphic file (type bmp)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 207.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 208.
  [3
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 207.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 208.
  (h:/AI/AI_pro/Report/egpaper_final.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 207.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 207.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 208.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 208.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 207.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 208.
  ) 
 Here is how much of TeX's memory you used:
  9635 strings out of 479418
@@ -360,4 +360,4 @@ Here is how much of TeX's memory you used:
  1348 hyphenation exceptions out of 8191
  38i,8n,31p,374b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on h:/AI/AI_pro/Report/egpaper_final.xdv (3 pages, 83196 bytes).
+Output written on h:/AI/AI_pro/Report/egpaper_final.xdv (3 pages, 83248 bytes).

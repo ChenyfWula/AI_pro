@@ -142,7 +142,7 @@ are set by default with 0.9 and 100 respectively. In order to get a path
 for visualization we iterate to find the list of states with maximum value 
 and after that we are able to find out the value along the path. For policy 
 extraction, we make use of the Q values computed from values in 
-¡°computeQValueFromValues¡± function. In graph.py, we have the 
+'computeQValueFromValues' function. In graph.py, we have the 
 2 graphs for the problem which is manually typed in and a random weather 
 generator is also included.
 
@@ -173,6 +173,13 @@ in the code zip.
 
 
 \subsection{Advantages \& Disadvantages}
+Advantages: An MDP is quite suitable for our topic which is making 
+decisions in an uncertain environment. It turns out to be that MDP 
+usually achieve good performance in our problem. It is convenient to 
+make changes to different conditions such as revising the transition 
+function for weather and the rewards to test for our implementation.
+
+
 Disadvantages: Since we are using value iteration, the time complexity 
 is $O(S^2 A)$ which is quadratic to the number of states and linear to 
 number of actions makes our algorithm a bit slow. 
@@ -180,12 +187,6 @@ We apply it because it is ensured to have an optimal solution.
 Besides if the state space is too large and the state is too complex, 
 we need more time to find an answer. 
 Therefore, we simplify the design of states as mentioned by Professor Tu.
-
-Advantages: An MDP is quite suitable for our topic which is making 
-decisions in an uncertain environment. It turns out to be that MDP 
-usually achieve good performance in our problem. It is convenient to 
-make changes to different conditions such as revising the transition 
-function for weather and the rewards to test for our implementation.
 
 \section{Conclusion}
 For this kind of path planning problem that may occur in reality, 
